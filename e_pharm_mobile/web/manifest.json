@@ -1,6 +1,6 @@
 {
-    "name": "e_pharm",
-    "short_name": "e_pharm",
+    "name": "e_pharm_mobile",
+    "short_name": "e_pharm_mobile",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

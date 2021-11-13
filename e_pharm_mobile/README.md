@@ -1,4 +1,4 @@
-# e_pharm
+# e_pharm_mobile
 
 A new Flutter project.
 
