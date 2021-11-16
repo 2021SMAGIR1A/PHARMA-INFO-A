@@ -1,4 +1,4 @@
-import 'package:e_pharm_mobile/modeles/Pharmacie.dart';
+import 'package:e_pharm_mobile/models/Pharmacie.dart';
 import 'package:flutter/material.dart';
 
 class DetailPharm extends StatefulWidget {
@@ -14,7 +14,7 @@ class _DetailPharmState extends State<DetailPharm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.pharm.name!),
+        title: Text(widget.pharm.label!),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.map_rounded),
@@ -28,19 +28,19 @@ class _DetailPharmState extends State<DetailPharm> {
             children: [
               ListTile(
                 leading: Icon(Icons.storefront_outlined),
-                title: Text(widget.pharm.name!),
+                title: Text(widget.pharm.label!),
               ),
               ListTile(
                 leading: Icon(Icons.format_quote),
-                title: Text(widget.pharm.site!),
+                title: Text(widget.pharm.location!),
               ),
               ListTile(
                 title: Text("Début de garde".toUpperCase()),
-                subtitle: Text(widget.pharm.dateDebut ?? ""),
+                subtitle: Text(widget.pharm.dateStart ?? ""),
               ),
               ListTile(
                 title: Text("Fin de garde".toUpperCase()),
-                subtitle: Text(widget.pharm.dateFin ?? ""),
+                subtitle: Text(widget.pharm.dateEnd ?? ""),
               ),
             ],
           ))

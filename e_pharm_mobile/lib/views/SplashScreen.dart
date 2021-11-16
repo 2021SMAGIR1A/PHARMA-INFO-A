@@ -1,5 +1,7 @@
 import 'package:e_pharm_mobile/controllers/PharmacieCtl.dart';
-import 'package:e_pharm_mobile/vues/Home.dart';
+import 'package:e_pharm_mobile/controllers/VilleCtl.dart';
+import 'package:e_pharm_mobile/models/Database.dart';
+import 'package:e_pharm_mobile/views/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,9 +38,24 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   redirect() async {
-    await Future.delayed(Duration(seconds: 5));
-    var villes = await PharmacieCtl.get();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Home(villes)));
+    try {
+      var villes = await VilleCtl.get();
+
+      //Sauvegarde des villes
+      await VilleCtl().insertAll(villes);
+
+      //Sauvegarde des pharmacies
+      villes.forEach((element) async =>
+          await PharmacieCtl().insertAll(element.pharmacies));
+
+      villes.forEach((ville) async {
+        await DBase.insert(entity: Entities.ville, model: ville.toMap());
+      });
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Home(villes)));
+    } catch (e) {
+      print(e);
+    }
   }
 }

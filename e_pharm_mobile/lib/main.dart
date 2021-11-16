@@ -1,4 +1,4 @@
-import 'package:e_pharm_mobile/vues/SplashScreen.dart';
+import 'package:e_pharm_mobile/views/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
