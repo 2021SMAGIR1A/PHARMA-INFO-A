@@ -37,7 +37,7 @@ class DBase {
         CREATE TABLE ville(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           commune VARCHAR
-         )""");
+        )""");
     await db.execute("""
         CREATE TABLE pharmacie(
           idPharm INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,8 +49,8 @@ class DBase {
           dateEnd VARCHAR,
           lat VARCHAR,
           long VARCHAR,
-          id INTEGER,
-         )""");
+          id INTEGER
+        )""");
   }
 
   static Future insert(
