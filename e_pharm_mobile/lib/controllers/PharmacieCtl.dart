@@ -1,32 +1,31 @@
+import 'package:e_pharm_mobile/components/components.dart';
 import 'package:e_pharm_mobile/controllers/Controller.dart';
 import 'package:e_pharm_mobile/models/Database.dart';
 import 'package:e_pharm_mobile/models/Pharmacie.dart';
+import 'package:http/http.dart' as http;
 
 class PharmacieCtl extends Controller<Pharmacie> {
   @override
-  insertAll(List<Pharmacie>? pharmacies) {
+  Future<bool> save(Pharmacie? model) async {
     try {
-      if (pharmacies != null) {
-        pharmacies.forEach((pharm) async => await insert(pharm));
-        return true;
-      }
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  @override
-  insert(Pharmacie? pharmacie) async {
-    try {
-      if (pharmacie != null) {
-        await DBase.insert(
-            entity: Entities.pharmacie, model: pharmacie.toMap());
-        return true;
+      if (model != null) {
+        var dateEnd = DateTime.parse(model.dateEnd!);
+        if (dateEnd.isBefore(DateTime.now())) {
+          var pharms = await DBase.select(
+              entity: Entities.pharmacie,
+              whereConditions: ["id = ?"],
+              whereArgs: [model.id]);
+          if (pharms.isEmpty) {
+            //Ajout
+          } else {
+            //Modification
+          }
+          return true;
+        }
+        return false;
       }
       return false;
     } catch (e) {
-      print(e);
       return false;
     }
   }

@@ -7,21 +7,21 @@ class Pharmacie {
   String? dateEnd;
   String? lat;
   String? long;
-  int? idCommune;
-  int? idPharm;
+  int? idLoc;
+  int? id;
 
   Pharmacie.fromJson(Map<String, dynamic> data, {int? idCom}) {
     if (idCom != null) {
-      fromJson(data, idCom: idCom);
+      fromJson(data, idLoc: idCom);
     } else {
       fromJson(data);
     }
   }
 
-  fromJson(Map<String, dynamic> data, {int? idCom}) {
+  fromJson(Map<String, dynamic> data, {int? idLoc}) {
     label = data["label"];
-    idPharm = data["idPharm"];
-    idCommune = data["id"] ?? idCom;
+    id = data["_id"];
+    this.idLoc = data["idLoc"] ?? idLoc;
     location = data["location"];
     director = data["director"];
     tel = data["tel"];
@@ -33,8 +33,8 @@ class Pharmacie {
 
   Map<String, dynamic>? toMap() => {
         "label": label,
-        "idPharm": idPharm,
-        "id": idCommune,
+        "idPharm": id,
+        "id": idLoc,
         "location": location,
         "director": director,
         "tel": tel,

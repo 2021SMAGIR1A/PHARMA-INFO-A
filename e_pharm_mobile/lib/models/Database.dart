@@ -14,18 +14,19 @@ class GetName {
 }
 
 class DBase {
-  static late Database? _database;
-  static Future<Database?> get database async {
-    if (_database != null) {
-      return _database;
-    } else {
-      ///Création la base de données
-      _database = await create();
-      return _database;
-    }
+  static Database? _database;
+  static Future<Database> get database async {
+    return _database ?? await create();
+    // if (_database != null) {
+    //   return _database;
+    // } else {
+    //   ///Création la base de données
+    //   _database = await create();
+    //   return _database;
+    // }
   }
 
-  static Future create() async {
+  static Future<Database> create() async {
     Directory repertoire = await getApplicationDocumentsDirectory();
     String dbPath = join(repertoire.path + "e_pharm.db");
     var dataBase = await openDatabase(dbPath, version: 1, onCreate: _onCreate);
@@ -35,12 +36,12 @@ class DBase {
   static Future _onCreate(Database db, int version) async {
     await db.execute("""
         CREATE TABLE ville(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          _id VARCHAR PRIMARY KEY,
           commune VARCHAR
         )""");
     await db.execute("""
         CREATE TABLE pharmacie(
-          idPharm INTEGER PRIMARY KEY AUTOINCREMENT,
+          _id VARCHAR PRIMARY KEY,
           label VARCHAR,
           location VARCHAR,
           tel VARCHAR,
@@ -49,15 +50,15 @@ class DBase {
           dateEnd VARCHAR,
           lat VARCHAR,
           long VARCHAR,
-          id INTEGER
+          idLoc INTEGER
         )""");
   }
 
   static Future insert(
       {@required Entities? entity,
       @required Map<String, dynamic>? model}) async {
-    Database? db = await database;
-    Batch batch = db!.batch();
+    Database db = await database;
+    Batch batch = db.batch();
     batch.insert(GetName.getEntityName(entity!), model!);
     await batch.commit(noResult: true);
   }
@@ -68,7 +69,7 @@ class DBase {
       String? whereCondition,
       List<dynamic>? whereArgs}) async {
     Database? db = await database;
-    Batch batch = db!.batch();
+    Batch batch = db.batch();
     batch.update(GetName.getEntityName(entity!), model!,
         where: whereCondition, whereArgs: whereArgs);
     await batch.commit(noResult: true);
@@ -90,15 +91,15 @@ class DBase {
             " FROM ${GetName.getEntityName(entity!)} WHERE " +
             whereConditions.join(" AND ");
         print(queryLog);
-        data = await db!.rawQuery(queryLog, whereArgs);
+        data = await db.rawQuery(queryLog, whereArgs);
       } else {
         queryLog = "SELECT " +
             fields.join(", ") +
             " FROM ${GetName.getEntityName(entity!)}";
-        data = await db!.rawQuery(queryLog);
+        data = await db.rawQuery(queryLog);
       }
     } else {
-      data = await db!.rawQuery(query);
+      data = await db.rawQuery(query);
     }
     return data;
   }
@@ -106,34 +107,34 @@ class DBase {
   static Future deleteWhere(
       {@required Entities? entity, @required int? id}) async {
     Database? db = await database;
-    await db!.delete(GetName.getEntityName(entity!),
+    await db.delete(GetName.getEntityName(entity!),
         where: "id = ?", whereArgs: [id]);
   }
 
   static Future deleteAll({@required Entities? entity}) async {
     Database? db = await database;
-    await db!.delete(GetName.getEntityName(entity!));
+    await db.delete(GetName.getEntityName(entity!));
   }
 
-  // static Future save({@required Entities? entity, @required Map<String, dynamic>? model}) async {
-  //   try {
-  //     List<Map<String, dynamic>> data = await select(
-  //         entity: entity,
-  //         whereConditions: ["id = ?"],
-  //         whereArgs: [model["id"] ?? "0"]);
-  //     if (data.length == 0) {
-  //       await insert(entity: entity, model: model);
-  //     } else {
-  //       if (data[0]["version"] < model["version"]) {
-  //         await update(
-  //             entity: entity,
-  //             model: model,
-  //             whereCondition: "id = ?",
-  //             whereArgs: [model["id"]]);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+  static Future save(
+      {@required Entities? entity,
+      @required Map<String, dynamic>? model}) async {
+    try {
+      List<Map<String, dynamic>> data = await select(
+          entity: entity,
+          whereConditions: ["id = ?"],
+          whereArgs: [model!["id"] ?? ""]);
+      if (data.length == 0) {
+        await insert(entity: entity, model: model);
+      } else {
+        await update(
+            entity: entity,
+            model: model,
+            whereCondition: "id = ?",
+            whereArgs: [model["id"]]);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }

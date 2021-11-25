@@ -1,21 +1,15 @@
-import 'package:e_pharm_mobile/models/Pharmacie.dart';
+class Locality {
+  String commune = "";
+  String id = "";
 
-class Ville {
-  String? commune;
-  int? id;
-
-  List<Pharmacie> pharmacies = [];
-  Ville.fromJson(Map<String, dynamic> data) {
+  Locality.fromJson(Map<String, dynamic> data) {
     fromJson(data);
   }
 
   fromJson(Map<String, dynamic> data) {
+    id = data["_id"];
     commune = data["commune"];
-    id = data["id"];
-    pharmacies = (data["pharmacies"] as List)
-        .map((e) => Pharmacie.fromJson(e, idCom: data["id"]))
-        .toList();
   }
 
-  Map<String, dynamic>? toMap() => {"id": id, "commune": commune};
+  Map<String, dynamic>? toMap() => {"_id": id, "commune": commune};
 }

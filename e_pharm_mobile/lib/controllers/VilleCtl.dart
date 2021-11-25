@@ -1,24 +1,23 @@
 import 'dart:convert';
 
+import 'package:e_pharm_mobile/components/components.dart';
 import 'package:e_pharm_mobile/controllers/Controller.dart';
 import 'package:e_pharm_mobile/models/Database.dart';
 import 'package:e_pharm_mobile/models/Ville.dart';
 import 'package:http/http.dart' as http;
 
-class VilleCtl extends Controller<Ville> {
-  // static String _url = "http://192.168.0.27/garde_pham.json";
-  static String _url = "https://duty-pharmacy.herokuapp.com";
-
-  static Future<List<Ville>> get() async {
+class VilleCtl extends Controller<Locality> {
+  static Future<List<Locality>> get() async {
     try {
-      var response = await http
-          .get(Uri.parse(_url), headers: {"content-type": "application/json"});
-      List<Ville> villes = [];
+      var response = await http.get(Uri.parse(UrlConst.locality),
+          headers: {"content-type": "application/json"});
+      List<Locality> villes = [];
 
-      if (response.statusCode == 200)
+      if (response.statusCode == 200) {
         villes = (json.decode(utf8.decode(response.bodyBytes)) as List)
-            .map<Ville>((e) => Ville.fromJson(e))
+            .map<Locality>((e) => Locality.fromJson(e))
             .toList();
+      }
       return villes;
     } catch (e) {
       print(e);
@@ -27,12 +26,13 @@ class VilleCtl extends Controller<Ville> {
   }
 
   @override
-  insertAll(List<Ville>? villes) {
+  Future<bool> insertAll(List<Locality>? villes) async {
     try {
       if (villes != null) {
         villes.forEach((ville) async => await insert(ville));
         return true;
       }
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -40,7 +40,29 @@ class VilleCtl extends Controller<Ville> {
   }
 
   @override
-  insert(Ville? ville) async {
+  Future<bool> save(Locality? model) async {
+    try {
+      if (model != null) {
+        // await DBase.save(entity: Entities.ville, model: model.toMap());
+        var villes = await DBase.select(
+            entity: Entities.ville,
+            whereConditions: ["id = ?"],
+            whereArgs: [model.id]);
+        if (villes.isEmpty) {
+          await DBase.insert(entity: Entities.ville, model: model.toMap());
+          return true;
+        }
+        return false;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> insert(Locality? ville) async {
     try {
       if (ville != null) {
         await DBase.insert(entity: Entities.ville, model: ville.toMap());
@@ -54,7 +76,7 @@ class VilleCtl extends Controller<Ville> {
   }
 
   @override
-  Future<List<Ville>?> select(
+  Future<List<Locality>> select(
       {List<String> fields = const ["*"],
       List<String> whereConditions = const [],
       List<dynamic>? whereArgs}) async {
@@ -64,7 +86,7 @@ class VilleCtl extends Controller<Ville> {
               fields: fields,
               whereConditions: whereConditions,
               whereArgs: whereArgs))
-          .map((e) => Ville.fromJson(e))
+          .map((e) => Locality.fromJson(e))
           .toList();
     } catch (e) {
       print(e);

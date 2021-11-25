@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.e_pharm_mobile">
    <application
-        android:label="e_pharm_mobile"
+        android:label="E-PHARM"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
