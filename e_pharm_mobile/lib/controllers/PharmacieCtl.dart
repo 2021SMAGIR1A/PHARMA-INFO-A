@@ -1,8 +1,6 @@
-import 'package:e_pharm_mobile/components/components.dart';
 import 'package:e_pharm_mobile/controllers/Controller.dart';
 import 'package:e_pharm_mobile/models/Database.dart';
 import 'package:e_pharm_mobile/models/Pharmacie.dart';
-import 'package:http/http.dart' as http;
 
 class PharmacieCtl extends Controller<Pharmacie> {
   @override
@@ -31,7 +29,7 @@ class PharmacieCtl extends Controller<Pharmacie> {
   }
 
   @override
-  Future<List<Pharmacie>?> select(
+  Future<List<Pharmacie>> select(
       {List<String> fields = const ["*"],
       List<String> whereConditions = const [],
       List<dynamic>? whereArgs}) async {

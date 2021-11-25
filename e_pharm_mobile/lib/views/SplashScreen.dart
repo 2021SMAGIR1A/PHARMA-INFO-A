@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
       //Récupération des villes avec l'api
       var villes = await VilleCtl.get();
 
-      villes.forEach((e) => VilleCtl().save(e));
+      villes.forEach((e) async => await VilleCtl().save(e));
 
       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     } catch (e) {

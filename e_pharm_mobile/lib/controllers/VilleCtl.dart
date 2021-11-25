@@ -46,7 +46,7 @@ class VilleCtl extends Controller<Locality> {
         // await DBase.save(entity: Entities.ville, model: model.toMap());
         var villes = await DBase.select(
             entity: Entities.ville,
-            whereConditions: ["id = ?"],
+            whereConditions: ["_id = ?"],
             whereArgs: [model.id]);
         if (villes.isEmpty) {
           await DBase.insert(entity: Entities.ville, model: model.toMap());

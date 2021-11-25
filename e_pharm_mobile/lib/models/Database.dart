@@ -17,13 +17,6 @@ class DBase {
   static Database? _database;
   static Future<Database> get database async {
     return _database ?? await create();
-    // if (_database != null) {
-    //   return _database;
-    // } else {
-    //   ///Création la base de données
-    //   _database = await create();
-    //   return _database;
-    // }
   }
 
   static Future<Database> create() async {
@@ -50,7 +43,7 @@ class DBase {
           dateEnd VARCHAR,
           lat VARCHAR,
           long VARCHAR,
-          idLoc INTEGER
+          idLoc VARCHAR
         )""");
   }
 
@@ -108,7 +101,7 @@ class DBase {
       {@required Entities? entity, @required int? id}) async {
     Database? db = await database;
     await db.delete(GetName.getEntityName(entity!),
-        where: "id = ?", whereArgs: [id]);
+        where: "_id = ?", whereArgs: [id]);
   }
 
   static Future deleteAll({@required Entities? entity}) async {
@@ -122,16 +115,16 @@ class DBase {
     try {
       List<Map<String, dynamic>> data = await select(
           entity: entity,
-          whereConditions: ["id = ?"],
-          whereArgs: [model!["id"] ?? ""]);
+          whereConditions: ["_id = ?"],
+          whereArgs: [model!["_id"] ?? ""]);
       if (data.length == 0) {
         await insert(entity: entity, model: model);
       } else {
         await update(
             entity: entity,
             model: model,
-            whereCondition: "id = ?",
-            whereArgs: [model["id"]]);
+            whereCondition: "_id = ?",
+            whereArgs: [model["_id"]]);
       }
     } catch (e) {
       print(e);
