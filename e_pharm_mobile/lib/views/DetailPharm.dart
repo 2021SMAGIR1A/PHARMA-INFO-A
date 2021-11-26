@@ -1,5 +1,6 @@
 import 'package:e_pharm_mobile/models/Pharmacie.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPharm extends StatefulWidget {
   final Pharmacie pharm;
@@ -16,10 +17,14 @@ class _DetailPharmState extends State<DetailPharm> {
       appBar: AppBar(
         title: Text(widget.pharm.label!),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.map_rounded),
-        onPressed: () {},
-      ),
+      floatingActionButton:
+          (widget.pharm.lat == null || widget.pharm.long == null)
+              ? null
+              : FloatingActionButton(
+                  child: Icon(Icons.map_rounded),
+                  onPressed: () => launch(
+                      "https://www.google.com/maps/search/?api=1&query=${widget.pharm.long},${widget.pharm.lat}"),
+                ),
       body: Column(
         children: [
           Image.asset("assets/bg.jpg"),
@@ -35,10 +40,17 @@ class _DetailPharmState extends State<DetailPharm> {
                 title: Text(widget.pharm.location!),
               ),
               ListTile(
+                leading: Icon(Icons.person),
+                title: Text("Directeur".toUpperCase()),
+                subtitle: Text(widget.pharm.director ?? ""),
+              ),
+              ListTile(
+                leading: Icon(Icons.date_range),
                 title: Text("Début de garde".toUpperCase()),
                 subtitle: Text(widget.pharm.dateStart ?? ""),
               ),
               ListTile(
+                leading: Icon(Icons.date_range),
                 title: Text("Fin de garde".toUpperCase()),
                 subtitle: Text(widget.pharm.dateEnd ?? ""),
               ),

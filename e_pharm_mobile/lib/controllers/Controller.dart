@@ -1,20 +1,24 @@
 abstract class Controller<T> {
-  insertAll(List<T>? model) {
+  Future insertAll(List<T>? model) async {
     throw UnimplementedError();
   }
 
-  Future<bool> insert(T? model) {
+  Future insert(T? model) async {
     throw UnimplementedError();
   }
 
-  Future<bool> save(T? model) {
+  Future save(T? model) async {
+    throw UnimplementedError();
+  }
+
+  Future deleteAll() {
     throw UnimplementedError();
   }
 
   Future<List<T>?> select(
       {List<String> fields = const ["*"],
       List<String> whereConditions = const [],
-      List<dynamic>? whereArgs}) {
+      List<dynamic>? whereArgs}) async {
     throw UnimplementedError();
   }
 }

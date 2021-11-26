@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 class Pharmacie {
   String? label;
   String? location;
@@ -5,12 +7,13 @@ class Pharmacie {
   String? director;
   String? dateStart;
   String? dateEnd;
-  String? lat;
-  String? long;
-  int? idLoc;
-  int? id;
+  String? lat = "0";
+  String? long = "0";
+  String? idLoc;
+  String? id;
+  int _distance = 0;
 
-  Pharmacie.fromJson(Map<String, dynamic> data, {int? idCom}) {
+  Pharmacie.fromJson(Map<String, dynamic> data, {String? idCom}) {
     if (idCom != null) {
       fromJson(data, idLoc: idCom);
     } else {
@@ -18,7 +21,7 @@ class Pharmacie {
     }
   }
 
-  fromJson(Map<String, dynamic> data, {int? idLoc}) {
+  fromJson(Map<String, dynamic> data, {String? idLoc}) {
     label = data["label"];
     id = data["_id"];
     this.idLoc = data["idLoc"] ?? idLoc;
@@ -33,8 +36,8 @@ class Pharmacie {
 
   Map<String, dynamic>? toMap() => {
         "label": label,
-        "idPharm": id,
-        "id": idLoc,
+        "_id": id,
+        "idLoc": idLoc,
         "location": location,
         "director": director,
         "tel": tel,
@@ -43,4 +46,7 @@ class Pharmacie {
         "lat": lat,
         "long": long,
       };
+
+  int get distance => _distance;
+  set distance(int distance) => _distance = distance;
 }

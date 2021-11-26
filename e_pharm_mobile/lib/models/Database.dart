@@ -116,8 +116,8 @@ class DBase {
       List<Map<String, dynamic>> data = await select(
           entity: entity,
           whereConditions: ["_id = ?"],
-          whereArgs: [model!["_id"] ?? ""]);
-      if (data.length == 0) {
+          whereArgs: [model!["_id"]]);
+      if (data.isEmpty) {
         await insert(entity: entity, model: model);
       } else {
         await update(

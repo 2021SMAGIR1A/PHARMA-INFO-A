@@ -1,3 +1,4 @@
+import 'package:e_pharm_mobile/components/components.dart';
 import 'package:e_pharm_mobile/controllers/PharmacieCtl.dart';
 import 'package:e_pharm_mobile/controllers/VilleCtl.dart';
 import 'package:e_pharm_mobile/models/Database.dart';
@@ -41,14 +42,11 @@ class _SplashScreenState extends State<SplashScreen> {
   redirect() async {
     try {
       //Récupération des villes avec l'api
-      var villes = await VilleCtl.get();
-
-      villes.forEach((e) async => await VilleCtl().save(e));
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      await VilleCtl.get();
     } catch (e) {
       print(e);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    } finally {
+      Navigate.toAndRemove(context, route: Home());
     }
   }
 }
