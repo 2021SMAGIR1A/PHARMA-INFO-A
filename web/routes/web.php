@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('main.base.main');
-});
+});*/
 
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/home', 'App\Http\Controllers\Client\HomeController@index')->name('home.index');
+Route::get('/', 'App\Http\Controllers\Client\HomeController@index')->name('home.index');
 
 Route::get('/commune/pharmacies/{id}/{commune}', 'App\Http\Controllers\Client\HomeController@communepharm')->name('communepharm.client');
 
