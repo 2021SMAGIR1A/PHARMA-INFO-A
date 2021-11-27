@@ -24,6 +24,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/', 'App\Http\Controllers\Client\HomeController@index')->name('home.index');
 
-Route::get('/commune/pharmacies/{id}/{commune}', 'App\Http\Controllers\Client\HomeController@communepharm')->name('communepharm.client');
+Route::get('/index.php/commune/pharmacies/{id}/{commune}', 'App\Http\Controllers\Client\HomeController@communepharm')->name('communepharm.client');
 
-Route::get('/pharmacie/{commune}/{id}', 'App\Http\Controllers\Client\HomeController@pharmacie')->name('pharmacie.detail');
+Route::get('/index.php/{commune}/{id}', 'App\Http\Controllers\Client\HomeController@pharmacie')->name('pharmacie.detail');
