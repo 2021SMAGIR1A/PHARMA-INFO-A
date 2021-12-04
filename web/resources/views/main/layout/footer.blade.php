@@ -6,7 +6,7 @@
                     </div>
                 </div>
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
-                    <a class="btn btn-primary text-white btn-rounded" href="{{ route('voyager.login') }}">Connexion admin</a>
+                    <a class="btn btn-primary text-white btn-rounded" href="#">Connexion admin</a>
                     <span class="flex-grow-1"></span>
                     <div class="d-flex align-items-center">
                         <img class="logo" src="{{ url('img/logop.png') }}" alt="">

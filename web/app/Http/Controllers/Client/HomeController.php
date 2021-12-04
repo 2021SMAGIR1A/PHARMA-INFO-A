@@ -60,5 +60,6 @@ class HomeController extends Controller
         return view('main.client.pharmacie',compact('communes','pharmacies','pharmadetail','commune'));
     }
 
+    
 
 }
