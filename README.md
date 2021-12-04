@@ -1,5 +1,5 @@
 # PHARMA-INFO-A
 
-Page WEB: http://srvc.mooc-foad.com/grp5/web/public/
+Page WEB: http://epharm.openslearning.com/web/public/
 
 Lien de l'API: https://duty-pharmacy.herokuapp.com/
