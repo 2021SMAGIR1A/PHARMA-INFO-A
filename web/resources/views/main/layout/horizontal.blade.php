@@ -8,17 +8,33 @@
                     <li>
                         <div>
                             <div>
-                                <label class="toggle" for="drop-2">Widgets</label><a href="datatables.html"><i class="nav-icon mr-2 i-Library"></i> Accueil</a>
+                                <label class="toggle" for="drop-2">Widgets</label><a href="{{ route('home.index') }}"><i class="nav-icon mr-2 i-Library"></i> Accueil</a>
                             </div>
                         </div>
                     </li>
+                    
+                    @if (auth()->check())
+                        <li>
+                            <div>
+                                <div>
+                                    <label class="toggle" for="drop-2">Widgets</label><a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();"><i class="nav-icon mr-2 i-Administrator"></i> Déconnexion</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @else
                     <li>
                         <div>
                             <div>
-                                <label class="toggle" for="drop-2">Widgets</label><a href="{{ route('voyager.login') }}"><i class="nav-icon mr-2 i-Administrator"></i> Connexion Admin</a>
+                                <label class="toggle" for="drop-2">Widgets</label><a href="{{ route('login') }}"><i class="nav-icon mr-2 i-Administrator"></i> Connexion Admin</a>
                             </div>
                         </div>
                     </li>
+                    @endif
+                    
                     <!--end-datatables-->
                   
                 </ul>

@@ -18,12 +18,27 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 
-Route::group(['prefix' => 'admin'], function () {
+/*Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+});*/
+
+//Liste des modules
+Route::middleware('auth')->group(function(){
+    Route::get('/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('dashboard.index');
+});
+
+Route::middleware(['guest'])->group(function(){
+    //Route::view('login', 'main.user.login')->name('login');
+    //Route::view('/register', '')->name('register');
+    Route::post('/checkuser', 'App\Http\Controllers\Client\UserController@checkuser')->name('checkuser');
 });
 
 Route::get('/', 'App\Http\Controllers\Client\HomeController@index')->name('home.index');
 
-Route::get('/index.php/commune/pharmacies/{id}/{commune}', 'App\Http\Controllers\Client\HomeController@communepharm')->name('communepharm.client');
+Route::get('commune/pharmacies/{id}/{commune}', 'App\Http\Controllers\Client\HomeController@communepharm')->name('communepharm.client');
 
-Route::get('/index.php/{commune}/{id}', 'App\Http\Controllers\Client\HomeController@pharmacie')->name('pharmacie.detail');
+Route::get('{commune}/{id}', 'App\Http\Controllers\Client\HomeController@pharmacie')->name('pharmacie.detail');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
